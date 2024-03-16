@@ -4,6 +4,8 @@ import time
 import threading
 from selenium.webdriver.support.wait import WebDriverWait
 
+
+
 def watering(i = 100000):
     # 建立 Edge 瀏覽器
     # i = int(input("how many times?"))
@@ -37,28 +39,12 @@ def watering(i = 100000):
         # 關閉瀏覽器
         driver.quit()
     except Exception as e:
+        driver.quit()
         print("error: " + str(e))
-        watering(i-j)
-        return False;
+        watering(i-j+1)
+        driver.quit()
+        return False
 
-
-
-def run_watering(num_threads,i):
-    try:
-        threads=[]
-        for j in range(num_threads):
-            thread = threading.Thread(target=watering,args=(j,))
-            threads.append(thread)
-            thread.start()
-        for thread in threads:
-            thread.join()
-    except Exception as e:
-        print("error :"+str(e))
-        run_watering(num_threads,i-j)
-        return False;
 
 i = int(input("how many times do you want to do?"))
-j = int(input("how many threads?"))
-
-run_watering(j,i)
-# watering(10000)
+watering(i)
